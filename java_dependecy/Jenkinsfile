@@ -1,0 +1,104 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'maven'
+    }
+
+    environment {
+        branch_name = 'main'
+        repo_url = 'https://github.com/snaatak-Zero-Downtime-Crew/salary-api.git'
+        SLACK_CHANNEL = "jenkins"
+        EMAIL_RECIPIENTS = "jnikita647@gmail.com"
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: branch_name, url: repo_url, credentialsId: 'git-cred'
+            }
+        }
+
+        stage('Dependency Scanning') {
+            steps {
+                sh 'mvn org.owasp:dependency-check-maven:check'
+            }
+        }
+
+        stage('Publish Report') {
+            steps {
+                publishHTML([
+                    allowMissing: false, 
+                    alwaysLinkToLastBuild: true, 
+                    keepAll: false, 
+                    reportDir: 'target', 
+                    reportFiles: 'dependency-check-report.html', 
+                    reportName: 'Dependency Check Report'
+                ])
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline completed.'
+            archiveArtifacts artifacts: 'target/dependency-check-report.html', allowEmptyArchive: true
+        }
+
+        success {
+            emailext(
+                attachmentsPattern: 'target/dependency-check-report.html',
+                body: """Hello,
+
+The Jenkins pipeline ${env.JOB_NAME} has completed successfully on Build #${env.BUILD_NUMBER}.
+
+Build Details:
+- Job Name: ${env.JOB_NAME}  
+- Build Number: ${env.BUILD_NUMBER}  
+- Build URL: ${env.BUILD_URL}  
+
+You can find the dependency check report attached.
+
+Best regards,  
+Jenkins CI
+""",
+                subject: "Jenkins Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                to: "${EMAIL_RECIPIENTS}"
+            )
+
+            slackSend(
+                channel: "${env.SLACK_CHANNEL}", 
+                message: "Build Successful: Job Name: ${env.JOB_NAME}, Build No: ${env.BUILD_NUMBER}, Build URL: ${env.BUILD_URL}", 
+                tokenCredentialId: 'slack'
+            )
+        }
+
+        failure {
+            emailext(
+                attachmentsPattern: 'target/dependency-check-report.html',
+                body: """Hello,
+
+The Jenkins pipeline ${env.JOB_NAME} has failed on Build #${env.BUILD_NUMBER}.
+
+Job Details:
+- Job Name: ${env.JOB_NAME}  
+- Build Number: ${env.BUILD_NUMBER}  
+- Build URL: ${env.BUILD_URL}  
+
+Please review the attached logs and reports for more details.
+
+Regards,  
+Jenkins CI
+""",
+                subject: "Jenkins Pipeline FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                to: "${EMAIL_RECIPIENTS}"
+            )
+
+            slackSend(
+                channel: "${env.SLACK_CHANNEL}", 
+                message: "Build Failed: Job Name: ${env.JOB_NAME}, Build No: ${env.BUILD_NUMBER}, Build URL: ${env.BUILD_URL}", 
+                tokenCredentialId: 'slack'
+            )
+        }
+    }
+}
