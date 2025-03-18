@@ -1,0 +1,81 @@
+node {
+    def emailRecipients = "jnikita647@gmail.com"
+    def zapReport = "${env.WORKSPACE}/ZAP-report.html"
+    def urlZapAttack = 'http://54.167.56.232:8081/api/v1/employee/health'
+    def channelName = 'jenkins'
+    
+    try {
+        stage('Clean Workspace') {
+            cleanWs()
+        }
+        
+        stage('ZAP Install') {
+            sh '''
+            wget https://github.com/zaproxy/zaproxy/releases/download/v2.16.0/ZAP_2_16_0_unix.sh
+            sudo chmod +x ZAP_2_16_0_unix.sh
+            sudo ./ZAP_2_16_0_unix.sh -q
+            '''
+        }
+        
+        stage('DAST') {
+            sh """
+            zap.sh -cmd -quickurl ${urlZapAttack} -quickprogress -port 8090 -quickout ${zapReport}
+            """
+        }
+        
+        stage('Publish Report') {
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, 
+                reportDir: '', reportFiles: 'ZAP-report.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+        }
+        
+        slackSend(channel: channelName, color: 'good', username: 'Jenkins CI',  
+            message: "Successful: DAST check passed and report published. Job Details - Name: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, URL: ${env.BUILD_URL}")
+        
+        emailext(
+            attachmentsPattern: "ZAP-report.html",
+            body: """
+                Hello,
+
+                The Jenkins pipeline **${env.JOB_NAME}** has completed successfully on Build #${env.BUILD_NUMBER}**.
+
+                Build Details:
+                - Job Name: ${env.JOB_NAME}
+                - Build Number: ${env.BUILD_NUMBER}
+                - Build URL: ${env.BUILD_URL}
+
+                You can find the ZAP report attached.
+
+                Best regards,  
+                Jenkins CI
+                Zero Downtime Crew
+            """,
+            subject: "Jenkins Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            to: emailRecipients
+        )
+    } catch (Exception e) {
+        slackSend(channel: channelName, color: 'danger', username: 'Jenkins CI', 
+            message: "FAILURE: DAST check Failed. Check log and console output. Job Details - Name: ${env.JOB_NAME}, Build Number: ${env.BUILD_NUMBER}, URL: ${env.BUILD_URL}")
+        
+        emailext(
+            attachmentsPattern: "ZAP-report.html",
+            body: """
+                Hello,
+
+                The Jenkins pipeline ${env.JOB_NAME} has failed on **Build #${env.BUILD_NUMBER}**.
+
+                Job Details:
+                - Job Name: ${env.JOB_NAME}
+                - Build Number: ${env.BUILD_NUMBER}
+                - Build URL: ${env.BUILD_URL}
+
+                Please review logs for more details.
+
+                Regards,  
+                Jenkins CI
+                Zero Downtime Crew
+            """,
+            subject: "Jenkins Pipeline FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            to: emailRecipients
+        )
+    }
+}
