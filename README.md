@@ -9,11 +9,11 @@
 ## Table Of Contents
 - [Introduction](#introduction)
 - [Pre-requisites](#pre-requisites)
-- [Implementation](#implementation-of-cd-on-terraform-module)
-- [Terraform Module Structure](#terraform-module)
-- [Jenkins Pipeline](#shared-library-jenkins-file)
-- [Terraform Template](#terraform-groovy-template-file)
-- [Shared Library](#shared-library-src-file)
+- [Implementation of CD on Terraform Module](#implementation-of-cd-on-terraform-module)
+- [Terraform Module Structure](#terraform-module-structure)
+- [Shared Library Jenkins File](#shared-library-jenkins-file)
+- [Terraform groovy template file](#terraform-groovy-template-file)
+- [Shared Library Src file](#shared-library-src-file)
 - [Contact](#contact-information)
 - [References](#references)
 
@@ -26,7 +26,8 @@ Terraform module CD (Continuous Deployment) automates infrastructure deployment 
   - Jenkins
 
 ## Implementation of CD on Terraform Module
-![image](https://github.com/user-attachments/assets/6fa5593c-a971-4c6b-b77b-18d3de48eb5a)
+
+![image](https://github.com/user-attachments/assets/324551c5-c446-45da-b685-28c39dcff6c4)
 
 
 ### Tools Used
@@ -37,33 +38,32 @@ Terraform module CD (Continuous Deployment) automates infrastructure deployment 
 | Terraform Apply   | Applies changes to reach desired state                                  |
 | Terraform Destroy | Destroys Terraform-managed resources                                   |
 
-### Steps
 
-1. **Create a New Pipeline Job**
+
+### step 1. **Create a New Pipeline Job**
    - Navigate to the Jenkins dashboard and click on New Item.
-   - Enter a name for your job (e.g., `Terraform-CD-Pipeline`)
+   - Enter a name for your job (e.g., **Terraform-CD-Pipeline**)
    - Select `Pipeline` and click `OK`
 
-2. **Configure Pipeline Script**
+### step 2. **Configure Pipeline Script**
    - In Pipeline section, select `Pipeline script from SCM`
    - Provide repository URL and credentials
+     
      ![image](https://github.com/user-attachments/assets/f1c525a8-d496-4f9a-9e45-df2896537d2c)
 
 
-3. **Save the Configuration**
+### step 3.  **Save the Configuration**
+  - Click on Save to save the job configuration.
 
-   Click on Save to save the job configuration.
+### step 4. **Build the Pipeline**
+  - Once the pipeline configuration is saved, you can manually trigger the build by clicking on Build Now.
 
- 4. **Build the Pipeline**
+### step 5.  **View Build Console Output**
 
-    Once the pipeline configuration is saved, you can manually trigger the build by clicking on Build Now.
-
-5.  **View Build Console Output**
-
-    - After triggering the build, you can view the progress and console output of the build by clicking on the build number in the Jenkins dashboard.
-    - The console output will display the steps executed by the pipeline script, including code checkout and compilation.
-    - Verify Successful Compilation.
-    ___
+- After triggering the build, you can view the progress and console output of the build by clicking on the build number in the Jenkins dashboard.
+- The console output will display the steps executed by the pipeline script, including code checkout and compilation.
+- Verify Successful Compilation.
+    
 ![image](https://github.com/user-attachments/assets/696abf93-4421-41ce-bdb8-6bd15af15cac)
 ___
 ![image](https://github.com/user-attachments/assets/b31b1cda-a86b-4cad-8267-4c17774e7dd2)
@@ -78,9 +78,9 @@ ___
 ## Terraform Module Structure
 
 ![image](https://github.com/user-attachments/assets/e712ad44-1af9-48a1-bbd9-a3c0f492f555)
+___
 
-
-## Shared Library Jenkins File
+## [Shared Library Jenkins File]()
 ```groovy
 @Library('terraform@Nikita-187') _
 
@@ -107,6 +107,7 @@ node {
 }
 ```
 
+___
 ## [Terraform groovy template file](https://github.com/snaatak-Zero-Downtime-Crew/shared-library/blob/Nikita-SCRUM-337/src/org/template/terrraformCD.groovy)
 
 ``` groovy
@@ -142,16 +143,17 @@ def call(String repoUrl, String branch, String credentialsId, String terraform_p
 }
 ```
 
-
+___
 ## [Shared Library Src file](https://github.com/snaatak-Zero-Downtime-Crew/shared-library/tree/Nikita-SCRUM-337/src/org)
 
 ![image](https://github.com/user-attachments/assets/7a4fa22b-3888-49bb-a70b-2f1c84a8fda5)
 
+___
 ### **Contact Information**
 
 | **Name** | **Email address**            | **Github ID**
 |----------|-------------------------------|-------------------|
-| Nikita joshi    |  jnikita647@gmail.com   | https://github.com/jnikita19  |
+| Nikita joshi    |  Nikita.Joshi@mygurukulam.co   | https://github.com/jnikita19  |
 
 ---
 ### **References**
