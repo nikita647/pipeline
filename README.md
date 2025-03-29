@@ -1,4 +1,4 @@
-# Implementation of CD on Terraform Module
+# POC of CD on Terraform Module
 ![image](https://github.com/user-attachments/assets/b8d4409f-ff38-4700-be8c-aa534e1ebd04)
 
 
