@@ -24,6 +24,8 @@ Terraform module CD (Continuous Deployment) automates infrastructure deployment 
   - Jenkins
 
 ## Implementation of CD on Terraform Module
+![image](https://github.com/user-attachments/assets/6fa5593c-a971-4c6b-b77b-18d3de48eb5a)
+
 
 ### Tools Used
 
