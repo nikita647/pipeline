@@ -1,4 +1,6 @@
 # Implementation of CD on Terraform Module
+![image](https://github.com/user-attachments/assets/b8d4409f-ff38-4700-be8c-aa534e1ebd04)
+
 
 | **Author** | **Created on** | **Version** | **Last updated by**|**Last Edited On**|**Level** |**Reviewer** |
 |------------|---------------------------|-------------|----------------|-----|-------------|-------------| 
@@ -153,7 +155,7 @@ def call(String repoUrl, String branch, String credentialsId, String terraform_p
 
 | **Link** | **Description**            |
 |----------|-------------------------------|
-| [What is Redis and installation of Redis](https://severalnines.com/blog/redis-how-installation-setup-and-configuration/)   |  Overview of Redis' structure and functions.          |
+| [Terraform CD ](https://severalnines.com/blog/redis-how-installation-setup-and-configuration/)   |  Overview of Redis' structure and functions.          |
 | [ScyllaDB Installation Guide](https://opensource.docs.scylladb.com/stable/getting-started/install-scylla/install-on-linux.html)   | Comprehensive guide for installing ScyllaDB on Linux. |
 |[Salary Documentation](https://github.com/OT-MICROSERVICES/salary-api/blob/main/README.md) |Documentation |
 
