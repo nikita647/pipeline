@@ -72,9 +72,9 @@ ___
 
     
 ## Terraform Module Structure
-- **Variables**: For module reusability
-- **Outputs**: Provides resource information
-- **Main.tf**: Contains infrastructure resources
+
+![image](https://github.com/user-attachments/assets/e712ad44-1af9-48a1-bbd9-a3c0f492f555)
+
 
 ## Shared Library Jenkins File
 ```groovy
