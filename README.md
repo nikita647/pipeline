@@ -60,9 +60,9 @@ Terraform module CD (Continuous Deployment) automates infrastructure deployment 
 
 5.  **View Build Console Output**
 
-     After triggering the build, you can view the progress and console output of the build by clicking on the build number in the Jenkins dashboard.
-     The console output will display the steps executed by the pipeline script, including code checkout and compilation.
-     Verify Successful Compilation.
+    - After triggering the build, you can view the progress and console output of the build by clicking on the build number in the Jenkins dashboard.
+    - The console output will display the steps executed by the pipeline script, including code checkout and compilation.
+    - Verify Successful Compilation.
     ___
 ![image](https://github.com/user-attachments/assets/696abf93-4421-41ce-bdb8-6bd15af15cac)
 ___
@@ -107,7 +107,7 @@ node {
 }
 ```
 
-## Terraform groovy template file
+## [Terraform groovy template file](https://github.com/snaatak-Zero-Downtime-Crew/shared-library/blob/Nikita-SCRUM-337/src/org/template/terrraformCD.groovy)
 
 ``` groovy
 package org.template
@@ -142,7 +142,10 @@ def call(String repoUrl, String branch, String credentialsId, String terraform_p
 }
 ```
 
-![image](https://github.com/user-attachments/assets/0ee6045a-d67a-43b8-9600-4f27b902b77b)
+
+## [Shared Library Src file](https://github.com/snaatak-Zero-Downtime-Crew/shared-library/tree/Nikita-SCRUM-337/src/org)
+
+![image](https://github.com/user-attachments/assets/7a4fa22b-3888-49bb-a70b-2f1c84a8fda5)
 
 ### **Contact Information**
 
@@ -155,7 +158,6 @@ def call(String repoUrl, String branch, String credentialsId, String terraform_p
 
 | **Link** | **Description**            |
 |----------|-------------------------------|
-| [Terraform CD ](https://severalnines.com/blog/redis-how-installation-setup-and-configuration/)   |  Overview of Redis' structure and functions.          |
-| [ScyllaDB Installation Guide](https://opensource.docs.scylladb.com/stable/getting-started/install-scylla/install-on-linux.html)   | Comprehensive guide for installing ScyllaDB on Linux. |
-|[Salary Documentation](https://github.com/OT-MICROSERVICES/salary-api/blob/main/README.md) |Documentation |
+| [Terraform module ](https://spacelift.io/blog/what-are-terraform-modules-and-how-do-they-work/)     | Overview of terraform module          |
+| [Terraform module CI/CD](https://spacelift.io/blog/terraform-in-ci-cd)   | Comprehensive guideCI/CD. |
 
